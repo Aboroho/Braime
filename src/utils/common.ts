@@ -1,7 +1,5 @@
 // icons
 import { ReactElement } from "react";
-import { IconType } from "react-icons";
-import { FaPlus, FaMinus, FaTimes, FaDivide, FaPercent } from "react-icons/fa";
 
 /**
  * generate random integer between min and max inclusive
@@ -43,8 +41,6 @@ export const generateRandomOption = (
   let right = Math.floor(count / 2);
   if (count % 2 == 0) right--;
 
-  console.log(count, left, right);
-
   const numberList = [];
 
   while (left--) {
@@ -55,18 +51,5 @@ export const generateRandomOption = (
     numberList.push(randomInt(number + 1, number + distance));
   }
   numberList.push(number);
-  console.log(numberList);
   return suffleArray(numberList);
-};
-
-export const operatorIconMaper = (operator: Braime.Operator) => {
-  const map: Record<Braime.Operator, IconType> = {
-    "+": FaPlus,
-    "-": FaMinus,
-    "*": FaTimes,
-    "/": FaDivide,
-    "%": FaPercent,
-  };
-
-  return map[operator];
 };

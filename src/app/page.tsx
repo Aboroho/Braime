@@ -70,9 +70,10 @@ export default function Home() {
 
   function goForPractice(config: Braime.QuestionSetConfig) {
     const questions = generateQuestion(config);
-    dispatch({ type: actions.RESET_USER_ANSWER });
+    dispatch({ type: actions.RESET_USER_ANSWER, payload: questions.length });
     dispatch({ type: actions.ADD_QUESTION_SET, payload: questions });
     dispatch({ type: actions.ADD_QUESTION_SET_CONFIG, payload: config });
+
     router.push("/practice");
   }
   function handlePresetClick(preset: string) {

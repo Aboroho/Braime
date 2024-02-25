@@ -27,9 +27,9 @@ function Result({}: Props) {
   const evaluatedQuestions = questions.map((question, idx) => {
     const res = evaluateQuestion(question);
     let status =
-      res == userAnswers[idx]
+      res == userAnswers[idx].value
         ? "correct"
-        : userAnswers[idx]
+        : userAnswers[idx].value
         ? "incorrect"
         : "not answered";
     correctCount += status === "correct" ? 1 : 0;
@@ -38,6 +38,14 @@ function Result({}: Props) {
     return { ...question, status: status, correctAnswer: res };
   });
 
+  function totalTime() {
+    const len = userAnswers.length;
+    const start = userAnswers[0].startTime || Date.now();
+    const end = userAnswers[len - 1].endTime || Date.now();
+    const time = start && end ? end - start : 0;
+    console.log(end, start);
+    return (time / 1000).toFixed(1);
+  }
   function resolveBadgeClass(status: string) {
     switch (status) {
       case "correct":
@@ -54,6 +62,15 @@ function Result({}: Props) {
   useEffect(() => {
     if (questions.length == 0) redirect("/");
   }, [questions]);
+
+  function resolveTime(idx: number) {
+    const answer = userAnswers[idx];
+    const time =
+      answer.endTime && answer.startTime
+        ? answer.endTime - answer.startTime
+        : 0;
+    return time / 1000;
+  }
   return (
     <div className="wrapper">
       <div className="summary flex gap-4 mb-6">
@@ -74,6 +91,8 @@ function Result({}: Props) {
         <span className="text-xl text-white">
           Total Questions : {questions.length}
         </span>
+        <br></br>
+        <span className="text-xl text-white">Total Time : {totalTime()}s</span>
       </div>
       <div className="flex flex-col gap-4">
         {evaluatedQuestions.map((question, questionIdx) => {
@@ -111,9 +130,12 @@ function Result({}: Props) {
                 </div>
               </div>
               <div className="mt-4">
+                <div>Time : {resolveTime(questionIdx).toPrecision(1)}s</div>
                 <div>
                   Your Answer :{" "}
-                  <span className="font-bold">{userAnswers[questionIdx]}</span>
+                  <span className="font-bold">
+                    {userAnswers[questionIdx].value}
+                  </span>
                 </div>
                 <div>
                   <span className="">Correct Answer</span> :{" "}

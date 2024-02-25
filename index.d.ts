@@ -26,4 +26,10 @@ namespace Braime {
     name: string;
     data: QuestionSetConfig;
   }
+
+  interface Answer {
+    value?: number;
+    startTime?: number;
+    endTime?: number;
+  }
 }

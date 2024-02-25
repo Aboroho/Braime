@@ -9,7 +9,7 @@ export type Action =
   | { type: "ARITHMETIC/ADD_QUESTION_SET"; payload: Braime.Questions }
   | {
       type: "ARITHMETIC/ADD_USER_ANSWER";
-      payload: { idx: number; value: number };
+      payload: { idx: number; value: Braime.Answer };
     }
   | {
       type: "ARITHMETIC/ADD_QUESTION_SET_CONFIG";
@@ -22,7 +22,7 @@ export type Action =
 export const initialState = {
   arithmetic: {
     questions: [] as Braime.Questions,
-    userAnswers: [] as Array<number>,
+    userAnswers: [] as Array<Braime.Answer>,
     QuestionSetConfig: {} as Braime.QuestionSetConfig,
   },
 };
@@ -54,9 +54,13 @@ export default function RootReducer(
 
     case actions.RESET_USER_ANSWER: {
       const newState = structuredClone(state);
-      if (payload) newState.arithmetic.userAnswers = new Array(payload);
+      if (payload)
+        newState.arithmetic.userAnswers = new Array(payload).fill({
+          startTime: Date.now(),
+          endTime: undefined,
+          value: undefined,
+        });
       else newState.arithmetic.userAnswers = [];
-      console.log(newState.arithmetic.userAnswers);
       return newState;
     }
     default:

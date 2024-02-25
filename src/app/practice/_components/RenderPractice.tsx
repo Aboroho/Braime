@@ -55,11 +55,29 @@ function RenderPractice() {
     };
   }, []);
 
-  function handleUserAnswer(value: any) {
-    console.log(userAnswers, activeQuestionIdx);
+  useEffect(() => {
+    const userAnswer: Braime.Answer = structuredClone(
+      userAnswers[activeQuestionIdx]
+    );
+
+    if (!userAnswer.startTime) userAnswer.startTime = Date.now();
     dispatch({
       type: actions.ADD_USER_ANSWER,
-      payload: { idx: activeQuestionIdx, value: value },
+      payload: { idx: activeQuestionIdx, value: userAnswer },
+    });
+  }, [activeQuestionIdx]);
+
+  function handleUserAnswer(value: any) {
+    const userAnswer: Braime.Answer = structuredClone(
+      userAnswers[activeQuestionIdx]
+    );
+
+    userAnswer.endTime = Date.now();
+    userAnswer.value = value;
+
+    dispatch({
+      type: actions.ADD_USER_ANSWER,
+      payload: { idx: activeQuestionIdx, value: userAnswer },
     });
   }
 
@@ -81,6 +99,7 @@ function RenderPractice() {
   }
 
   function renderPagination() {
+    if (!userAnswers[activeQuestionIdx]) return;
     return (
       <div className="flex flex-wrap gap-2 p-4 justify-center">
         {questions.map((q, idx) => {
@@ -94,7 +113,7 @@ function RenderPractice() {
               }`}
               variant="outline"
             >
-              {userAnswers[idx] ? (
+              {userAnswers[idx].value ? (
                 <FaCheck className="text-green-500" />
               ) : (
                 idx + 1
@@ -152,7 +171,7 @@ function RenderPractice() {
       <div>
         <ActiveQuestion
           question={questions[activeQuestionIdx]}
-          userAnswer={userAnswers[activeQuestionIdx]}
+          userAnswer={userAnswers[activeQuestionIdx].value}
           handleUserAnswer={handleUserAnswer}
           questionIdx={activeQuestionIdx}
           options={options}
