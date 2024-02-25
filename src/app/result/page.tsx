@@ -39,6 +39,7 @@ function Result({}: Props) {
   });
 
   function totalTime() {
+    if (userAnswers.length == 0) return 0;
     const len = userAnswers.length;
     const start = userAnswers[0].startTime || Date.now();
     const end = userAnswers[len - 1].endTime || Date.now();
