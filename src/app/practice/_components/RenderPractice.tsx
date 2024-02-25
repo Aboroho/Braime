@@ -60,7 +60,7 @@ function RenderPractice() {
       userAnswers[activeQuestionIdx]
     );
 
-    if (!userAnswer.startTime) userAnswer.startTime = Date.now();
+    userAnswer.startTime = Date.now();
     dispatch({
       type: actions.ADD_USER_ANSWER,
       payload: { idx: activeQuestionIdx, value: userAnswer },

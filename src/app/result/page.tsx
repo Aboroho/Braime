@@ -131,7 +131,7 @@ function Result({}: Props) {
                 </div>
               </div>
               <div className="mt-4">
-                <div>Time : {resolveTime(questionIdx).toPrecision(1)}s</div>
+                <div>Time : {resolveTime(questionIdx).toFixed(2)}s</div>
                 <div>
                   Your Answer :{" "}
                   <span className="font-bold">
