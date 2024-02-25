@@ -94,6 +94,7 @@ export default function Home() {
   }
 
   function deletePreset(idx: number) {
+    if (!window) return;
     if (!confirm()) return;
     const preset: Array<Braime.Preset> = JSON.parse(
       window.localStorage.getItem("preset") || "[]"

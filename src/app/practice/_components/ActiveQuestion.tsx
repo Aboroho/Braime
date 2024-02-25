@@ -70,7 +70,6 @@ const ActiveQuestion = ({
   }
 
   function renderOptions() {
-    console.log(options[questionIdx]);
     return (
       <div className="mt-5">
         <h2 className="font-bold mb-3 text-slate-300">Select An Answer</h2>

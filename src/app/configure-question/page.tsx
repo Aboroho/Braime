@@ -50,10 +50,6 @@ function Configure({}: Props) {
     presetName: "",
   });
 
-  useEffect(() => {
-    // dispatch({ type: actions.ADD_QUESTION_SET, payload: [] });
-  }, []);
-
   const { toast } = useToast();
   function confiure() {
     const questions = generateQuestion(inputs);
@@ -130,6 +126,7 @@ function Configure({}: Props) {
   }
 
   function savePreset() {
+    if (!window) return;
     const rawPreset = window.localStorage.getItem("preset");
     const preset: Array<Braime.Preset> = JSON.parse(rawPreset || "[]");
 
@@ -147,6 +144,7 @@ function Configure({}: Props) {
   }
 
   function uniquePresetName() {
+    if (typeof window != undefined) return true;
     const preset: Array<Braime.Preset> = JSON.parse(
       window.localStorage.getItem("preset") || "[]"
     );
